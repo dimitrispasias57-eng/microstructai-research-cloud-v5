@@ -19,6 +19,7 @@ st.sidebar.title('MicroStructAI')
 st.sidebar.caption('Research Cloud v5.0-rc1 · Research Use Only')
 mode=st.sidebar.radio('Analysis mode',MODES,key='navigation')
 st.sidebar.caption('€0 native inference · no external AI API. Uploads go to the Streamlit host, not an inference provider. Use authorised, non-identifiable research data only.')
+st.sidebar.warning('Research Use Only. Do not upload protected health information (PHI), patient identifiers or confidential data.')
 if st.sidebar.button('Clear this session'):
     epoch=st.session_state.epoch+1;st.session_state.clear();st.session_state.epoch=epoch;st.rerun()
 st.sidebar.caption('Download before refresh/closing. Sessions are not permanent storage.')

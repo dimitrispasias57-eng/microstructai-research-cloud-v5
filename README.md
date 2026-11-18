@@ -36,6 +36,8 @@ application output directory. Only the read-only model is cached. Hosted upload
 necessarily sends files to Streamlit. This is not a confidential clinical-data
 platform. Use only authorised, non-identifiable research data. Export before
 refresh, sleep, disconnect or clearing a session.
+Do not upload protected health information (PHI), patient identifiers or
+confidential datasets. This free research app is not a clinical-data service.
 
 Classical uploads: maximum 200 files, 8 MiB each, 32 MiB total, 1 million spatial
 pixels per image and 16 million channel-pixels per run. Native: maximum 50 crops,
