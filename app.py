@@ -201,8 +201,8 @@ def spatial_page(kind):
                 st.caption(f'{len(p.scores)}/{len(table)} complete rows used. PCA is descriptive, not biological classification; signs are arbitrary.')
                 st.scatter_chart(p.scores,x='PC1',y='PC2')
                 st.download_button('PCA scores CSV',rpt.csv_bytes(p.scores),'pca_scores.csv','text/csv',key=prefix+'_pca_csv')
-                pfig=rpt.chart_bytes(p.scores,list(p.scores.select_dtypes(include='number').columns)[:2])
-                pp=rpt.bundle(kind,p.scores,{'analysis':'Exploratory PCA','descriptors':selected,'complete_rows':len(p.scores),'input_count':len(table),'analysed_count':len(p.scores),'session_id':st.session_state.session_id},LIMITS[kind],{'pca_scores.png':pfig},{'pca_loadings.csv':rpt.csv_bytes(p.loadings),'explained_variance.json':json.dumps(b.json_safe(p.explained_variance.to_dict())).encode()})
+                pfig=rpt.pca_figure_bytes(p.scores)
+                pp=rpt.bundle(kind,p.scores,{'analysis':'Exploratory PCA','descriptors':selected,'complete_rows':len(p.scores),'input_count':len(table),'analysed_count':len(p.scores),'session_id':st.session_state.session_id},LIMITS[kind],{'pca_scores.png':pfig},{'pca_loadings.csv':rpt.pca_loadings_bytes(p.loadings),'explained_variance.json':json.dumps(b.json_safe(p.explained_variance.to_dict())).encode()})
                 st.download_button('PCA report, scores and loadings (ZIP)',pp['zip'],'pca_bundle.zip','application/zip',key=prefix+'_pca_zip')
 
 def temporal_page():

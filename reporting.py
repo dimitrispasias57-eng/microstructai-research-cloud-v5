@@ -32,6 +32,20 @@ def chart_bytes(frame,columns,x=None):
         if columns:ax.legend(fontsize=8)
         buf=io.BytesIO();fig.savefig(buf,format='png',dpi=130);return buf.getvalue()
 
+def pca_figure_bytes(scores):
+    """Export the same PC1-vs-PC2 view as the UI, never the numeric row ID."""
+    with PLOT_LOCK:
+        fig=Figure(figsize=(7,5),layout='constrained');FigureCanvasAgg(fig);ax=fig.subplots()
+        ax.scatter(scores['PC1'],scores['PC2'])
+        ax.set_xlabel('PC1 score');ax.set_ylabel('PC2 score')
+        ax.set_title('Exploratory PCA — complete observations')
+        ax.grid(alpha=.2)
+        buf=io.BytesIO();fig.savefig(buf,format='png',dpi=130);return buf.getvalue()
+
+def pca_loadings_bytes(loadings):
+    """Retain descriptor identities in a flat CSV without changing loadings."""
+    return csv_bytes(loadings.rename_axis('descriptor').reset_index())
+
 def bundle(module,frame,metadata,limitations,figures=None,extras=None):
     figures=figures or {};extras=extras or {}
     meta={'software':'MicroStructAI Research Cloud','version':VERSION,'module':module,**metadata,'research_use_only':True}
