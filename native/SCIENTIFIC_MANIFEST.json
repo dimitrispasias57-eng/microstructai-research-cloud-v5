@@ -1,0 +1,23 @@
+{
+  "name": "MicroStructAI Native RBC Cloud v1.1",
+  "scientific_gate": "NATIVE_RBC_MODEL_MIXED",
+  "scope": "Centred native 96x96 8-bit grayscale DPC single-cell crops only; internal validation only",
+  "checkpoint_sha256": "47432018b5bc1b32a83d42dd1c3f9bb590bc8bb08906fd4a7f2bb01401b8c3a9",
+  "files": {
+    "src/model.py": "e59d82286a50793ce8325d91789e13fd507a8acb191ebc9495015a4efb7a2436",
+    "src/common.py": "8ed11faec071457c70d1cceb95cf9fa6481989a8e922cde582715fc2701a90b8",
+    "src/metrics.py": "5f1ca543524fd15ba967045a3733f490411777c75aaff6335b3dc7a3ddbb15ce",
+    "src/downstream.py": "16414ac5f96ed0bf152be906c314347013ded3f3d778efd5a617d9faa4d7d6e6",
+    "frozen/geometry.py": "5e3b861896fea21d69722f5f42debd9a344a49335cfc01f2337aa168ceaaffa5",
+    "frozen/reserved_validation_rules_v1.py": "25930bc75a3a1af51fa65713eeea1b6f4eebcb275040590e14f21594c85451d7",
+    "frozen/morphology/engine.py": "0c1700082a068e4978acb6e80a46871915f379f651967c4d3afa43d829e92cf4",
+    "frozen/morphology/__init__.py": "a9fbd14159ab8d84b06c35262bafa4ffacd959cf4efa99826072b76cfbeb6620",
+    "model/native_rbc_v1.ts": "5a24b246068e4b97c80ea08b101cde627a4d0d32c6668ce95dd53ed3d8192f82"
+  },
+  "portable_bytes": 566863,
+  "torch_export": "2.9.1+cu128",
+  "review_required": true,
+  "external_inference": false,
+  "deployment_protocol": "NATIVE_CLOUD_DECISION_EQUIVALENCE_V11",
+  "historical_gate": "The Native Cloud v1 raw probability tolerance gate FAILED and remains unchanged."
+}

@@ -1,0 +1,6 @@
+# Install in a separate V4 environment, never over the working V3 environment.
+-r requirements.txt
+tifffile==2025.10.4
+# Optional native codecs. This PC instead uses an explicitly configured isolated
+# Pillow 12.3.0 runtime for LZW; PackBits/Deflate use tifffile's built-in codecs.
+# imagecodecs (pin the tested version if a new V4 environment is provisioned)
