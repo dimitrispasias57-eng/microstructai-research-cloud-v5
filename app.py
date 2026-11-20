@@ -43,13 +43,13 @@ def export_view(module,frame,metadata,figures=None,extras=None):
     a.download_button('Results CSV',package['csv'],module.split('/')[0].strip().replace(' ','_')+'.csv','text/csv',key=module+'_csv')
     c.download_button('Research report (HTML)',package['html'],'microstructai_report.html','text/html',key=module+'_html')
     d.download_button('Figures, results and provenance (ZIP)',package['zip'],'microstructai_bundle.zip','application/zip',key=module+'_zip')
-def show_table_plot(module,frame,metadata,figures=None,extras=None):
+def show_table_plot(module,frame,metadata,figures=None,extras=None,*,plot_x=None,plot_default=None,plot_labels=None):
     st.dataframe(frame,hide_index=True)
-    numeric=[c for c in frame if pd.api.types.is_numeric_dtype(frame[c]) and not pd.api.types.is_bool_dtype(frame[c])]
-    chosen=st.multiselect('Plot metrics (check units before combining)',numeric,default=numeric[:1],key=module+'_plot')
+    numeric=[c for c in frame if c!=plot_x and pd.api.types.is_numeric_dtype(frame[c]) and not pd.api.types.is_bool_dtype(frame[c])]
+    chosen=st.multiselect('Plot metrics (check units before combining)',numeric,default=plot_default if plot_default is not None else numeric[:1],key=module+'_plot'+('_time' if plot_x else ''))
     figures=dict(figures or {})
     if chosen:
-        fig=rpt.chart_bytes(frame,chosen);st.image(fig);figures['metric_plot.png']=fig
+        fig=rpt.chart_bytes(frame,chosen,x=plot_x,**(plot_labels or {}));st.image(fig);figures['metric_plot.png']=fig
     export_view(module,frame,metadata,figures,extras)
 
 def morphology_page():
@@ -240,7 +240,10 @@ def temporal_page():
     if result:
         st.json(b.json_safe(result['qualified_timing']));table=pd.DataFrame({'time_s':result['time_axis'],'raw_value':result['raw_values'],'analysis_value':result['analysis_values'],'qc_valid':result['qc_valid']})
         st.json(b.json_safe(result['recording_relative_computational']['metrics']))
-        show_table_plot(MODES[3],table,{'input_count':len(data),'analysed_count':len(table),'temporal_result':result})
+        st.caption('Plot: analysed signal versus recording time. Missing/excluded analysis values remain gaps; raw values are available separately. No sorting, resampling or smoothing is added by the plot. Timing qualification is unchanged.')
+        show_table_plot(MODES[3],table,{'input_count':len(data),'analysed_count':len(table),'temporal_result':result},
+                        plot_x='time_s',plot_default=['analysis_value'],
+                        plot_labels={'x_label':'Recording time (s)','y_label':str(result['descriptor'])+' ('+str(result['units'])+')','title':'Temporal structural trajectory'})
 
 def dynamics_page():
     header(MODES[4]);st.info('For original same-cell DPC crops, first use RBC Morphology and approve each mask. Otherwise supply externally reviewed binary whole-cell masks. No cell identity is inferred.')
